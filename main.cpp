@@ -73,7 +73,7 @@ bool get_jump(void *instance) {
     }
 }
 void hack() {
-    void* shop = Il2CppGetMethodOffset("SYBO.RunnerCore.Character", "", "Currency", "get_IsIAP");
+    void* shop = Il2CppGetMethodOffset("SYBO.Subway.Core.GameData", "", "Currency", "get_IsIAP");
     DobbyHook(shop, (void *)original, (void **)origin_call);
     void* jump_off = Il2CppGetMethodOffset("SYBO.RunnerCore.Character", "", "CharacterMotor", "get_CanJump");
     DobbyHook(jump_off, (void *)get_jump, (void **)old_jump);

@@ -14,9 +14,6 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Install Ninja
-        run: |
-          sudo apt-get update
           
 
       - name: Configure CMake for Android (arm64-v8a)
