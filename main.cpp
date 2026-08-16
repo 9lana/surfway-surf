@@ -71,12 +71,13 @@ bool get_jump(void *instance) {
     if (jump) {
         return true;
     }
+    return old_jump(instance);
 }
 void hack() {
-    void* shop = Il2CppGetMethodOffset("SYBO.Subway.Core.GameData", "", "Currency", "get_IsIAP");
-    DobbyHook(shop, (void *)original, (void **)origin_call);
+    void* shop = Il2CppGetMethodOffset("Assembly-CSharp.dll", "", "Currency", "get_IsIAP");
+    DobbyHook(shop, (void *)original, (void **)&origin_call);
     void* jump_off = Il2CppGetMethodOffset("Assembly-CSharp.dll", "", "CharacterMotor", "get_CanJump");
-    DobbyHook(jump_off, (void *)get_jump, (void **)old_jump);
+    DobbyHook(jump_off, (void *)get_jump, (void **)&old_jump);
 }
 void touch(bool* mouse) {
     ImGuiIO& io = ImGui::GetIO();
