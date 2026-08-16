@@ -58,6 +58,7 @@ struct UnityEngine_Touch_Fields {
     float m_AzimuthAngle;
 };
 bool test = false;
+bool jump = false;
 bool (*original)(void *instance);
 bool origin_call(void *instance) {
     if (test) {
@@ -65,9 +66,17 @@ bool origin_call(void *instance) {
     }
     return original(instance);
 }
+bool (*old_jump)(void *instance);
+bool get_jump(void *instance) {
+    if (jump) {
+        return true;
+    }
+}
 void hack() {
-    void* shop = Il2CppGetMethodOffset("Assembly-CSharp.dll", "", "Currency", "get_IsIAP");
+    void* shop = Il2CppGetMethodOffset("SYBO.RunnerCore.Character", "", "Currency", "get_IsIAP");
     DobbyHook(shop, (void *)original, (void **)origin_call);
+    void* jump_off = Il2CppGetMethodOffset("SYBO.RunnerCore.Character", "", "CharacterMotor", "get_CanJump");
+    DobbyHook(jump_off, (void *)get_jump, (void **)old_jump);
 }
 void touch(bool* mouse) {
     ImGuiIO& io = ImGui::GetIO();
