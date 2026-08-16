@@ -139,7 +139,7 @@ EGLBoolean hook_eglSawpBuffer(EGLDisplay dpy, EGLSurface surface) {
     ImGui::SliderFloat("Value",&value,0.0f,100.0f);
     ImGui::Text("Bye!");
     ImGui::Checkbox("Shop", &test);
-    
+    ImGui::Checkbox("Jump", &jump);
     ImGui::End(); 
     ImGui::Render();
     
