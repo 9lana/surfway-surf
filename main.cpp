@@ -162,6 +162,7 @@ void *sylphy(void*) {
     sleep(1);
     }
 
+    sleep(10);
 
     Il2CppAttach("libil2cpp.so");
     void *egl = dlopen("libEGL.so", RTLD_NOW);
