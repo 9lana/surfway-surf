@@ -75,7 +75,7 @@ bool get_jump(void *instance) {
 }
 void hack() {
     void* shop = Il2CppGetMethodOffset("Assembly-CSharp.dll", "", "Currency", "get_IsIAP");
-    DobbyHook(shop, (void *)original, (void **)&origin_call);
+    DobbyHook(shop, (void *)origin_call, (void **)&original);
     void* jump_off = Il2CppGetMethodOffset("Assembly-CSharp.dll", "", "CharacterMotor", "get_CanJump");
     DobbyHook(jump_off, (void *)get_jump, (void **)&old_jump);
 }
