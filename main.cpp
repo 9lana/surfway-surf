@@ -11,7 +11,6 @@
 #include "ByNameModding/Includes.h"
 #include "ByNameModding/fake_dlfcn.h"
 #include "ByNameModding/Il2Cpp.h"
-// #include "ByNameModding/Tools.h"
 
 
 #include <pthread.h>
@@ -88,6 +87,13 @@ bool no_side(void* instance, void* idk) {
     }
     return original_no_side(instance, idk);
 }
+bool (*original_camera)(void* instance, void* idk);
+bool follow_camera(void* instance, void* idk) {
+    if (instance != NULL) {
+        return true;
+    }
+    return original_camera(instance, idk);
+}
 void hack() {
     void* shop = Il2CppGetMethodOffset("Assembly-CSharp.dll", "SYBO.Subway.Core.GameData", "Currency", "get_IsIAP");
     DobbyHook(shop, (void *)origin_call, (void **)&original);
@@ -97,6 +103,8 @@ void hack() {
     DobbyHook(front_off, (void *)no_front, (void**)&original_no_front);
     void* side_off = Il2CppGetMethodOffset("Assembly-CSharp.dll", "SYBO.RunnerCore.Character", "CharacterMotor", "CheckSideImpact", 1);
     DobbyHook(side_off, (void*)no_side, (void**)&original_no_side);
+    void* camera_off = Il2CppGetMethodOffset("Assembly-CSharp.dll", "SYBO.Subway", "CameraGroundedModifier", "Apply", 1);
+    DobbyHook(camera_off, (void*)follow_camera, (void**)&original_camera);
 }
 void touch(bool* mouse) {
     ImGuiIO& io = ImGui::GetIO();
@@ -173,10 +181,6 @@ EGLBoolean hook_eglSawpBuffer(EGLDisplay dpy, EGLSurface surface) {
 
 }
 void *sylphy(void*) {
-    // void *base = NULL;
-    // while ((base = (void*)Tools::GetBaseAddress("libil2cpp.so")) == NULL) {
-    //     sleep(1);
-    // }
     uintptr_t base = 0;
     while ((base = GetBaseAdress("libil2cpp.so")) == 0) {
     sleep(1);
