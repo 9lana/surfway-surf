@@ -59,13 +59,13 @@ struct UnityEngine_Touch_Fields {
 };
 bool test = false;
 bool jump = false;
-// bool (*original)(void *instance);
-// bool origin_call(void *instance) {
-//     if (test) {
-//         return false;
-//     }
-//     return original(instance);
-// }
+bool (*original)(void *instance);
+bool origin_call(void *instance) {
+    if (test) {
+        return false;
+    }
+    return original(instance);
+}
 bool (*old_jump)(void *instance);
 bool get_jump(void *instance) {
     if (jump) {
@@ -74,8 +74,8 @@ bool get_jump(void *instance) {
     return old_jump(instance);
 }
 void hack() {
-    void* shop = Il2CppGetMethodOffset("Assembly-CSharp.dll", "", "Currency", "get_IsIAP");
-    // DobbyHook(shop, (void *)origin_call, (void **)&original);
+    void* shop = Il2CppGetMethodOffset("Assembly-CSharp.dll", "SYBO.Subway.Core.GameData", "Currency", "get_IsIAP");
+    DobbyHook(shop, (void *)origin_call, (void **)&original);
     void* jump_off = Il2CppGetMethodOffset("Assembly-CSharp.dll", "SYBO.RunnerCore.Character", "CharacterMotor", "get_CanJump", 0);
     DobbyHook(jump_off, (void *)get_jump, (void **)&old_jump);
 }
