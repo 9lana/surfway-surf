@@ -170,6 +170,7 @@ EGLBoolean hook_eglSawpBuffer(EGLDisplay dpy, EGLSurface surface) {
     ImGui::Checkbox("Shop", &test);
     ImGui::Checkbox("Jump", &jump);
     ImGui::Checkbox("No Death", &no_dealth);
+    ImGui::Checkbox("Debug", &debug);
     ImGui::End();
     if (debug) {
         ImGui::Begin("Debug");
