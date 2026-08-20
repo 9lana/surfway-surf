@@ -56,6 +56,7 @@ struct UnityEngine_Touch_Fields {
     float m_AltitudeAngle;
     float m_AzimuthAngle;
 };
+bool debug = false;
 bool test = false;
 bool jump = false;
 bool no_dealth = false;
@@ -169,7 +170,13 @@ EGLBoolean hook_eglSawpBuffer(EGLDisplay dpy, EGLSurface surface) {
     ImGui::Checkbox("Shop", &test);
     ImGui::Checkbox("Jump", &jump);
     ImGui::Checkbox("No Death", &no_dealth);
-    ImGui::End(); 
+    ImGui::End();
+    if (debug) {
+        ImGui::Begin("Debug");
+        ImGui::Text("Debug Menu");
+        ImGui::Text("FPS  %.1f", ImGui::GetIO().Framerate);
+        ImGui::End();
+    }
     ImGui::Render();
     
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
