@@ -60,6 +60,7 @@ bool debug = false;
 bool test = false;
 bool jump = false;
 bool no_dealth = false;
+bool stopTrain = false;
 bool (*original)(void *instance);
 bool origin_call(void *instance) {
     if (test) {
@@ -95,6 +96,13 @@ bool follow_camera(void* instance, void* idk) {
     }
     return original_camera(instance, idk);
 }
+bool (*old_train)(void* instance);
+bool train(void* instance) {
+    if (instance != NULL) {
+        return true;
+    }
+    return old_train(instance);
+}
 void hack() {
     void* shop = Il2CppGetMethodOffset("Assembly-CSharp.dll", "SYBO.Subway.Core.GameData", "Currency", "get_IsIAP");
     DobbyHook(shop, (void *)origin_call, (void **)&original);
@@ -106,6 +114,8 @@ void hack() {
     DobbyHook(side_off, (void*)no_side, (void**)&original_no_side);
     void* camera_off = Il2CppGetMethodOffset("Assembly-CSharp.dll", "SYBO.Subway", "CameraGroundedModifier", "Apply", 1);
     DobbyHook(camera_off, (void*)follow_camera, (void**)&original_camera);
+    void* stopTrain = Il2CppGetMethodOffset("Assembly-Csharp.dll", "SYBO.Subway", "MovingTrain", "Disable");
+    DobbyHook(stopTrain, (void*)train, (void,**)&old_train);
 }
 void touch(bool* mouse) {
     ImGuiIO& io = ImGui::GetIO();
@@ -170,6 +180,7 @@ EGLBoolean hook_eglSawpBuffer(EGLDisplay dpy, EGLSurface surface) {
     ImGui::Checkbox("Shop", &test);
     ImGui::Checkbox("Jump", &jump);
     ImGui::Checkbox("No Death", &no_dealth);
+    Imgui::Checkbox("Stop Train", &stopTrain);
     ImGui::Checkbox("Debug", &debug);
     ImGui::End();
     if (debug) {
