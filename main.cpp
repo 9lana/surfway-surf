@@ -148,7 +148,7 @@ void touch(bool* mouse) {
 }
 
 EGLBoolean (*orig_eglSwapBuffers)(EGLDisplay dpy, EGLSurface surface);
-EGLBoolean hook_eglSawpBuffer(EGLDisplay dpy, EGLSurface surface) {
+EGLBoolean hook_eglSwapBuffer(EGLDisplay dpy, EGLSurface surface) {
     static bool g_Initialized = false;
     static bool should_clear_mouse_pos = false;
     if (!g_Initialized) {
@@ -180,7 +180,7 @@ EGLBoolean hook_eglSawpBuffer(EGLDisplay dpy, EGLSurface surface) {
     ImGui::Checkbox("Shop", &test);
     ImGui::Checkbox("Jump", &jump);
     ImGui::Checkbox("No Death", &no_dealth);
-    Imgui::Checkbox("Stop Train", &stopTrain);
+    ImGui::Checkbox("Stop Train", &stopTrain);
     ImGui::Checkbox("Debug", &debug);
     ImGui::End();
     if (debug) {
