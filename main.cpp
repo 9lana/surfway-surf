@@ -215,7 +215,7 @@ void *sylphy(void*) {
     if (!swap) {
         return nullptr;
     }
-    DobbyHook(swap, (void*)hook_eglSawpBuffer, (void**)&orig_eglSwapBuffers); 
+    DobbyHook(swap, (void*)hook_eglSwapBuffer, (void**)&orig_eglSwapBuffers); 
     hack();
     return nullptr;
 }
