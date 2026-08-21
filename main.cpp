@@ -115,7 +115,7 @@ void hack() {
     void* camera_off = Il2CppGetMethodOffset("Assembly-CSharp.dll", "SYBO.Subway", "CameraGroundedModifier", "Apply", 1);
     DobbyHook(camera_off, (void*)follow_camera, (void**)&original_camera);
     void* stopTrain = Il2CppGetMethodOffset("Assembly-Csharp.dll", "SYBO.Subway", "MovingTrain", "Disable");
-    DobbyHook(stopTrain, (void*)train, (void,**)&old_train);
+    DobbyHook(stopTrain, (void*)train, (void**)&old_train);
 }
 void touch(bool* mouse) {
     ImGuiIO& io = ImGui::GetIO();
