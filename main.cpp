@@ -107,14 +107,14 @@ bool train(void* instance) {
 }
 float (*original_speed)(void* instance);
 float getMinSpeed(void* instance) {
-    if (speed >= 0.0f) {
+    if (speed > 0.0f) {
         return speed;
     }
     return original_speed(instance);
 }
 float (*original_speed1)(void* instance);
 float getMinSpeed1(void* instance) {
-    if (speed1 >= 0.0f) {
+    if (speed1 > 0.0f) {
         return speed1;
     }
     return original_speed1(instance);
@@ -201,8 +201,8 @@ EGLBoolean hook_eglSwapBuffer(EGLDisplay dpy, EGLSurface surface) {
     ImGui::Checkbox("Jump", &jump);
     ImGui::Checkbox("No Death", &no_dealth);
     ImGui::Checkbox("Stop Train", &stopTrain);
-    ImGui::SliderFloat("Speed", &speed, 0.0f, 100.0f);
-    ImGui::SliderFloat("Speed1", &speed1, 0.0f, 100.0f);
+    ImGui::SliderFloat("Speed", &speed, 0.0f, 500.0f);
+    ImGui::SliderFloat("Speed1", &speed1, 0.0f, 500.0f);
     ImGui::Checkbox("Debug", &debug);
     ImGui::End();
     if (debug) {
