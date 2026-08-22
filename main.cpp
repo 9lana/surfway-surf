@@ -61,6 +61,8 @@ bool test = false;
 bool jump = false;
 bool no_dealth = false;
 bool stopTrain = false;
+float speed = 0.0f;
+float speed1 = 0.0f;
 bool (*original)(void *instance);
 bool origin_call(void *instance) {
     if (test) {
@@ -103,6 +105,20 @@ bool train(void* instance) {
     }
     return old_train(instance);
 }
+float (*original_speed)(void* instance);
+float getMinSpeed(void* instance) {
+    if (speed >= 0.0f) {
+        return speed;
+    }
+    return original_speed(instance);
+}
+float (*original_speed1)(void* instance);
+float getMinSpeed1(void* instance) {
+    if (speed1 >= 0.0f) {
+        return speed1;
+    }
+    return original_speed1(instance);
+}
 void hack() {
     void* shop = Il2CppGetMethodOffset("Assembly-CSharp.dll", "SYBO.Subway.Core.GameData", "Currency", "get_IsIAP");
     DobbyHook(shop, (void *)origin_call, (void **)&original);
@@ -116,6 +132,10 @@ void hack() {
     DobbyHook(camera_off, (void*)follow_camera, (void**)&original_camera);
     void* stopTrain = Il2CppGetMethodOffset("Assembly-Csharp.dll", "SYBO.Subway", "MovingTrain", "Disable");
     DobbyHook(stopTrain, (void*)train, (void**)&old_train);
+    void* minSpeedOff = Il2CppGetMethodOffset("Assembly-CSharp.dll", "SYBO.Subway", "DefaultSpeedController", "get_MinSpeed");
+    DobbyHook(minSpeedOff, (void*)getMinSpeed, (void**)&original_speed);
+    void* minSpeedOff1 = Il2CppGetMethodOffset("Assembly-CSharp.dll", "SYBO.Subway", "DefaultSpeedController", "get_MaxSpeed");
+    DobbyHook(minSpeedOff1, (void*)getMinSpeed1, (void**)&original_speed1);
 }
 void touch(bool* mouse) {
     ImGuiIO& io = ImGui::GetIO();
@@ -181,6 +201,8 @@ EGLBoolean hook_eglSwapBuffer(EGLDisplay dpy, EGLSurface surface) {
     ImGui::Checkbox("Jump", &jump);
     ImGui::Checkbox("No Death", &no_dealth);
     ImGui::Checkbox("Stop Train", &stopTrain);
+    ImGui::SliderFloat("Speed", &speed, 0.0f, 100.0f);
+    ImGui::SliderFloat("Speed1", &speed1, 0.0f, 100.0f);
     ImGui::Checkbox("Debug", &debug);
     ImGui::End();
     if (debug) {
